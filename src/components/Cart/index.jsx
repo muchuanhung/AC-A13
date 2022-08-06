@@ -13,7 +13,14 @@ type CartProps = {
 };
 
 const Cart: React.FC<CartProps> = (props) => {
-  const { totalAmount, lineItems, onUpdateQuantity, onRemoveItem, onRemoveCart } = props;
+  const {
+    totalAmount,
+    lineItems,
+    onUpdateQuantity,
+    onRemoveItem,
+    onRemoveCart,
+    haveCoupon,
+  } = props;
 
   return (
     <section data-name="Cart">
@@ -37,9 +44,12 @@ const Cart: React.FC<CartProps> = (props) => {
           />
         );
       })}
+      {haveCoupon.discount && (
+        <div className="text-end">Discount:{haveCoupon.discount}</div>
+      )}
       <div className="text-end">totalAmount:{totalAmount}</div>
       <button
-        disabled={totalAmount === 0}
+        disabled={totalAmount === 0 && !haveCoupon.discount}
         className="btn btn-success"
         onClick={onRemoveCart}
       >
@@ -49,4 +59,4 @@ const Cart: React.FC<CartProps> = (props) => {
   );
 };
 
-export default Cart;
+export default React.memo(Cart);
